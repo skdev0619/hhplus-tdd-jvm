@@ -23,4 +23,13 @@ class PointServiceTest {
             .isThrownBy { service.charge(1L, amount) }
             .withMessage("양수인 정수만 충전 가능합니다")
     }
+
+    @DisplayName("100만 포인트 이상 충전하면 예외 발생한다")
+    @ValueSource(longs = [1_000_000, 1_000_001])
+    @ParameterizedTest
+    fun chargeIfOver(chargeAmount: Long) {
+        assertThatIllegalArgumentException()
+            .isThrownBy { service.charge(1L, chargeAmount) }
+            .withMessage("100만 포인트 이상 충전할 수 없습니다")
+    }
 }
