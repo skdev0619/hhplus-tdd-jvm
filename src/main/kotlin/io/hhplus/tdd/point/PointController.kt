@@ -16,7 +16,7 @@ class PointController {
     fun point(
         @PathVariable id: Long,
     ): UserPoint {
-        return UserPoint(0, 0, 0)
+        return UserPoint(0, Point.ZERO, 0)
     }
 
     /**
@@ -37,7 +37,7 @@ class PointController {
         @PathVariable id: Long,
         @RequestBody amount: Long,
     ): UserPoint {
-        return UserPoint(0, 0, 0)
+        return UserPoint(0, Point.ZERO, 0)
     }
 
     /**
@@ -48,6 +48,6 @@ class PointController {
         @PathVariable id: Long,
         @RequestBody amount: Long,
     ): UserPoint {
-        return UserPoint(0, 0, 0)
+        return UserPoint(0, Point.ZERO, 0)
     }
 }
