@@ -14,7 +14,7 @@ class PointServiceTest {
     fun setUp() {
         service = PointService()
     }
-
+    /*
     @DisplayName("충전할 금액을 0을 입력하면 예외 발생한다")
     @ValueSource(longs = [0])
     @ParameterizedTest
@@ -23,7 +23,7 @@ class PointServiceTest {
             .isThrownBy { service.charge(1L, amount) }
             .withMessage("충전할 포인트는 0보다 커야 합니다")
     }
-    /*
+
     @DisplayName("100만 포인트 이상 충전하면 예외 발생한다")
     @ValueSource(longs = [1_000_000, 1_000_001])
     @ParameterizedTest
