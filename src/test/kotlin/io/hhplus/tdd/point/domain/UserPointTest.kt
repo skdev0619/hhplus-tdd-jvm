@@ -39,6 +39,16 @@ class UserPointTest {
             .withMessage("잔액이 부족합니다")
     }
 
+    @DisplayName("유저가 포인트를 사용한다")
+    @Test
+    fun use() {
+        val userPoint = createUserPoint(1L, 100L)
+
+        val result = userPoint.use(1L, 20L)
+
+        assertThat(result.point).isEqualTo(Point(80L))
+    }
+
     private fun createUserPoint(id: Long, amount: Long): UserPoint {
         return UserPoint(id, Point(amount), System.currentTimeMillis())
     }
