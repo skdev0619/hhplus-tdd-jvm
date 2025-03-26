@@ -1,4 +1,4 @@
-package io.hhplus.tdd.point
+package io.hhplus.tdd.point.domain
 
 data class Point(val value: Long) {
 
