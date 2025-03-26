@@ -8,7 +8,7 @@ class PointServiceTest {
 
     @BeforeEach
     fun setUp() {
-        service = PointService()
+        //service = PointService()
     }
     /*
     @DisplayName("충전할 금액을 0을 입력하면 예외 발생한다")

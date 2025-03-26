@@ -1,16 +1,22 @@
 package io.hhplus.tdd.point.service
 
+import io.hhplus.tdd.point.domain.TransactionType
+import io.hhplus.tdd.point.repository.PointHistoryRepository
+import io.hhplus.tdd.point.repository.UserPointRepository
+import io.hhplus.tdd.point.service.dto.PointChargeResponse
+import org.springframework.stereotype.Service
+
+@Service
 class PointService(
-
+    private val userPointRepository: UserPointRepository,
+    private val pointHistoryRepository: PointHistoryRepository
 ) {
-    fun charge(id: Long, amount: Long) {
-        /*
-        if (amount == 0L) {
-            throw IllegalArgumentException("충전할 포인트는 0보다 커야 합니다")
-        }
+    fun charge(id: Long, amount: Long): PointChargeResponse {
+        val userPoint = userPointRepository.selectById(id)
+        val resultUserPoint = userPoint.charge(id, amount)
 
-        if (amount >= 1_000_000) {
-            throw IllegalArgumentException("100만 포인트 이상 충전할 수 없습니다")
-        }*/
+        userPointRepository.insertOrUpdate(id = id, amount = resultUserPoint.point.value)
+        pointHistoryRepository.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis())
+        return PointChargeResponse(id, TransactionType.CHARGE, amount, resultUserPoint.point.value)
     }
 }
