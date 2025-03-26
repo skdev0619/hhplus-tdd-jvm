@@ -5,6 +5,7 @@ import io.hhplus.tdd.point.repository.PointHistoryRepository
 import io.hhplus.tdd.point.repository.UserPointRepository
 import io.hhplus.tdd.point.service.dto.PointChargeResponse
 import io.hhplus.tdd.point.service.dto.PointUseResponse
+import io.hhplus.tdd.point.service.dto.UserPointResponse
 import org.springframework.stereotype.Service
 
 @Service
@@ -28,5 +29,10 @@ class PointService(
         userPointRepository.insertOrUpdate(id = id, amount = resultUserPoint.point.value)
         pointHistoryRepository.insert(id, amount, TransactionType.USE, System.currentTimeMillis())
         return PointUseResponse(id, TransactionType.USE, amount, resultUserPoint.point.value)
+    }
+
+    fun findById(id: Long): UserPointResponse {
+        val userPoint = userPointRepository.selectById(id)
+        return UserPointResponse.from(userPoint)
     }
 }
