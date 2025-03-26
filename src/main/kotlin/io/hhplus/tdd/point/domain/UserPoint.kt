@@ -13,4 +13,11 @@ data class UserPoint(
         val newPoint = point.plus(amount)
         return UserPoint(id, newPoint, System.currentTimeMillis())
     }
+
+    fun use(id: Long, amount : Long): UserPoint? {
+        if(point.isLessThan(amount)){
+            throw IllegalStateException("잔액이 부족합니다")
+        }
+        return null
+    }
 }

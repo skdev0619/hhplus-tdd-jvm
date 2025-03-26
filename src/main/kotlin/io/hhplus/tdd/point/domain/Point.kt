@@ -34,4 +34,8 @@ data class Point(val value: Long) {
     fun minus(other: Point): Point {
         return Point(this.value - other.value)
     }
+
+    fun isLessThan(other: Long): Boolean {
+        return this.value < other
+    }
 }

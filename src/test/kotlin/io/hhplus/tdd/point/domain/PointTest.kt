@@ -37,4 +37,14 @@ class PointTest {
 
         assertThat(result).isEqualTo(Point(800L))
     }
+
+    @DisplayName("포인트가 주어진 값보다 작은지 확인한다")
+    @Test
+    fun isLessThan(){
+        val point = Point(100L)
+
+        val result = point.isLessThan(101L)
+
+        assertThat(result).isTrue()
+    }
 }
