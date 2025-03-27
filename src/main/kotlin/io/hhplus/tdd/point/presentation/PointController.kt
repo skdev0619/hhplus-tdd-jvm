@@ -1,15 +1,20 @@
 package io.hhplus.tdd.point.presentation
 
-import io.hhplus.tdd.point.domain.Point
-import io.hhplus.tdd.point.domain.PointHistory
-import io.hhplus.tdd.point.domain.UserPoint
+import io.hhplus.tdd.point.service.PointService
+import io.hhplus.tdd.point.service.dto.PointChargeResponse
+import io.hhplus.tdd.point.service.dto.PointHistoryResponse
+import io.hhplus.tdd.point.service.dto.PointUseResponse
+import io.hhplus.tdd.point.service.dto.UserPointResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/point")
-class PointController {
+class PointController(
+    private val pointService: PointService
+) {
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     /**
@@ -18,8 +23,8 @@ class PointController {
     @GetMapping("{id}")
     fun point(
         @PathVariable id: Long,
-    ): UserPoint {
-        return UserPoint(0, Point.ZERO, 0)
+    ): ResponseEntity<UserPointResponse> {
+        return ResponseEntity.ok(pointService.findById(id))
     }
 
     /**
@@ -28,8 +33,8 @@ class PointController {
     @GetMapping("{id}/histories")
     fun history(
         @PathVariable id: Long,
-    ): List<PointHistory> {
-        return emptyList()
+    ): ResponseEntity<List<PointHistoryResponse>> {
+        return ResponseEntity.ok(pointService.getUserPointHistory(id))
     }
 
     /**
@@ -39,8 +44,8 @@ class PointController {
     fun charge(
         @PathVariable id: Long,
         @RequestBody amount: Long,
-    ): UserPoint {
-        return UserPoint(0, Point.ZERO, 0)
+    ): ResponseEntity<PointChargeResponse> {
+        return ResponseEntity.ok(pointService.charge(id, amount))
     }
 
     /**
@@ -50,7 +55,7 @@ class PointController {
     fun use(
         @PathVariable id: Long,
         @RequestBody amount: Long,
-    ): UserPoint {
-        return UserPoint(0, Point.ZERO, 0)
+    ): ResponseEntity<PointUseResponse> {
+        return ResponseEntity.ok(pointService.use(id, amount))
     }
 }
