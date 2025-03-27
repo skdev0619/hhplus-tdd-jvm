@@ -9,6 +9,8 @@ import io.hhplus.tdd.point.service.dto.UserPointResponse
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -97,6 +99,27 @@ class PointControllerTest {
         verify(pointService).charge(id, chargeAmount)
     }
 
+    @DisplayName("특정 유저가 포인트를 충전할 때, 최대 값인 100만을 초과하여 예외가 발생한다")
+    @ValueSource(longs = [1_000_000])
+    @ParameterizedTest
+    fun maxCharge(maxAmount: Long) {
+        val id = 1L
+
+        `when`(pointService.charge(id, maxAmount))
+            .thenThrow(IllegalStateException("포인트는 0이상 1000000이하여야 합니다"))
+
+        mockMvc.perform(
+            patch("/point/${id}/charge")
+                .content(maxAmount.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isInternalServerError)
+            .andExpect(jsonPath("$.message", `is`("포인트는 0이상 1000000이하여야 합니다")))
+
+        verify(pointService).charge(id, maxAmount)
+    }
+
+
     @DisplayName("특정 유저가 포인트를 사용한다")
     @Test
     fun use() {
@@ -116,6 +139,26 @@ class PointControllerTest {
             .andExpect(jsonPath("$.transactionType", `is`(response.transactionType.toString())))
             .andExpect(jsonPath("$.usedAmount", `is`(response.usedAmount.toInt())))
             .andExpect(jsonPath("$.newBalance", `is`(response.newBalance.toInt())))
+
+        verify(pointService).use(id, useAmount)
+    }
+
+    @DisplayName("특정 유저가 포인트를 사용할 때 잔고가 부족해 예외가 발생한다.")
+    @Test
+    fun InsufficientPoint() {
+        val id = 1L
+        val useAmount = 1_000L
+
+        `when`(pointService.use(id, useAmount))
+            .thenThrow(IllegalStateException("잔액이 부족합니다"))
+
+        mockMvc.perform(
+            patch("/point/${id}/use")
+                .content(useAmount.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isInternalServerError)
+            .andExpect(jsonPath("$.message", `is`("잔액이 부족합니다")))
 
         verify(pointService).use(id, useAmount)
     }
