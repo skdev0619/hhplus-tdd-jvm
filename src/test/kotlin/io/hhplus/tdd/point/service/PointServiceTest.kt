@@ -1,6 +1,7 @@
 package io.hhplus.tdd.point.service
 
 import io.hhplus.tdd.point.domain.TransactionType
+import io.hhplus.tdd.point.fake.FakeLockManager
 import io.hhplus.tdd.point.fake.FakePointHistoryRepository
 import io.hhplus.tdd.point.fake.FakeUserPointRepository
 import io.hhplus.tdd.point.service.dto.PointHistoryResponse
@@ -14,7 +15,8 @@ class PointServiceTest {
 
     val userPointRepository = FakeUserPointRepository()
     val pointHistoryRepository = FakePointHistoryRepository()
-    val pointService = PointService(userPointRepository, pointHistoryRepository)
+    val lockManager = FakeLockManager()
+    val pointService = PointService(userPointRepository, pointHistoryRepository, lockManager)
 
     @DisplayName("유저가 포인트를 충전하면, 포인트 잔액이 증가하고 포인트 사용 이력이 쌓인다")
     @Test
