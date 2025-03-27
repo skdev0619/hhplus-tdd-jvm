@@ -10,7 +10,7 @@ class DefaultLockManagerTest {
 
     @DisplayName("숫자 0을 동시에 5씩 3번 증가시키면, 락이 적용되어 최종 결과는 15이 된다")
     @Test
-    fun aa() {
+    fun executeWithLock() {
         val threadCount = 3
         val executorService = Executors.newFixedThreadPool(threadCount)
         val latch = CountDownLatch(threadCount)
