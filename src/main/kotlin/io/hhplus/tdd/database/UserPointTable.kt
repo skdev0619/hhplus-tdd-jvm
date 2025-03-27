@@ -1,6 +1,7 @@
 package io.hhplus.tdd.database
 
-import io.hhplus.tdd.point.UserPoint
+import io.hhplus.tdd.point.domain.Point
+import io.hhplus.tdd.point.domain.UserPoint
 import org.springframework.stereotype.Component
 
 /**
@@ -12,12 +13,12 @@ class UserPointTable {
 
     fun selectById(id: Long): UserPoint {
         Thread.sleep(Math.random().toLong() * 200L)
-        return table[id] ?: UserPoint(id = id, point = 0, updateMillis = System.currentTimeMillis())
+        return table[id] ?: UserPoint(id = id, point = Point.ZERO, updateMillis = System.currentTimeMillis())
     }
 
     fun insertOrUpdate(id: Long, amount: Long): UserPoint {
         Thread.sleep(Math.random().toLong() * 300L)
-        val userPoint = UserPoint(id = id, point = amount, updateMillis = System.currentTimeMillis())
+        val userPoint = UserPoint(id = id, point = Point(amount), updateMillis = System.currentTimeMillis())
         table[id] = userPoint
         return userPoint
     }

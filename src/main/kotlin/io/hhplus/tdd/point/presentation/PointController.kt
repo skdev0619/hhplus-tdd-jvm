@@ -1,5 +1,8 @@
-package io.hhplus.tdd.point
+package io.hhplus.tdd.point.presentation
 
+import io.hhplus.tdd.point.domain.Point
+import io.hhplus.tdd.point.domain.PointHistory
+import io.hhplus.tdd.point.domain.UserPoint
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
@@ -16,7 +19,7 @@ class PointController {
     fun point(
         @PathVariable id: Long,
     ): UserPoint {
-        return UserPoint(0, 0, 0)
+        return UserPoint(0, Point.ZERO, 0)
     }
 
     /**
@@ -37,7 +40,7 @@ class PointController {
         @PathVariable id: Long,
         @RequestBody amount: Long,
     ): UserPoint {
-        return UserPoint(0, 0, 0)
+        return UserPoint(0, Point.ZERO, 0)
     }
 
     /**
@@ -48,6 +51,6 @@ class PointController {
         @PathVariable id: Long,
         @RequestBody amount: Long,
     ): UserPoint {
-        return UserPoint(0, 0, 0)
+        return UserPoint(0, Point.ZERO, 0)
     }
 }
