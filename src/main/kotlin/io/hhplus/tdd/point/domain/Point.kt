@@ -15,7 +15,7 @@ data class Point(val value: Long) {
 
     private fun validate(value: Long) {
         if (MIN_VALUE > value || MAX_VALUE < value) {
-            throw IllegalArgumentException("포인트는 ${MIN_VALUE}이상 ${MAX_VALUE}이하여야 합니다")
+            throw IllegalStateException("포인트는 ${MIN_VALUE}이상 ${MAX_VALUE}이하여야 합니다")
         }
     }
 

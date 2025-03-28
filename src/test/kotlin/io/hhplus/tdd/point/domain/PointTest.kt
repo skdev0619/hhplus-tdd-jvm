@@ -1,7 +1,6 @@
 package io.hhplus.tdd.point.domain
 
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
+import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -13,7 +12,7 @@ class PointTest {
     @ValueSource(longs = [-1, 1_000_001])
     @ParameterizedTest
     fun validateRange(value: Long) {
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
             .isThrownBy { Point(value) }
             .withMessage("포인트는 0이상 1000000이하여야 합니다")
     }
